@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CommitMapper">
+  <resultMap id="BaseResultMap" type="entity.Commit">
+    <id column="commitId" jdbcType="INTEGER" property="commitId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="commitTime" jdbcType="TIMESTAMP" property="commitTime" />
+    <result column="committerId" jdbcType="VARCHAR" property="committerId" />
+    <result column="libId" jdbcType="INTEGER" property="libId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="entity.Commit">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    commitId, title, commitTime, committerId, libId
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="entity.CommitExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="entity.CommitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from commit
+    where commitId = #{commitId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commit
+    where commitId = #{commitId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.CommitExample">
+    delete from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.Commit">
+    insert into commit (commitId, title, commitTime, 
+      committerId, libId, content
+      )
+    values (#{commitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{commitTime,jdbcType=TIMESTAMP}, 
+      #{committerId,jdbcType=VARCHAR}, #{libId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="entity.Commit">
+    insert into commit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commitId != null">
+        commitId,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="commitTime != null">
+        commitTime,
+      </if>
+      <if test="committerId != null">
+        committerId,
+      </if>
+      <if test="libId != null">
+        libId,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commitId != null">
+        #{commitId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commitTime != null">
+        #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="committerId != null">
+        #{committerId,jdbcType=VARCHAR},
+      </if>
+      <if test="libId != null">
+        #{libId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.CommitExample" resultType="java.lang.Long">
+    select count(*) from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update commit
+    <set>
+      <if test="record.commitId != null">
+        commitId = #{record.commitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commitTime != null">
+        commitTime = #{record.commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.committerId != null">
+        committerId = #{record.committerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.libId != null">
+        libId = #{record.libId,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update commit
+    set commitId = #{record.commitId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      commitTime = #{record.commitTime,jdbcType=TIMESTAMP},
+      committerId = #{record.committerId,jdbcType=VARCHAR},
+      libId = #{record.libId,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update commit
+    set commitId = #{record.commitId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      commitTime = #{record.commitTime,jdbcType=TIMESTAMP},
+      committerId = #{record.committerId,jdbcType=VARCHAR},
+      libId = #{record.libId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.Commit">
+    update commit
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commitTime != null">
+        commitTime = #{commitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="committerId != null">
+        committerId = #{committerId,jdbcType=VARCHAR},
+      </if>
+      <if test="libId != null">
+        libId = #{libId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where commitId = #{commitId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="entity.Commit">
+    update commit
+    set title = #{title,jdbcType=VARCHAR},
+      commitTime = #{commitTime,jdbcType=TIMESTAMP},
+      committerId = #{committerId,jdbcType=VARCHAR},
+      libId = #{libId,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where commitId = #{commitId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.Commit">
+    update commit
+    set title = #{title,jdbcType=VARCHAR},
+      commitTime = #{commitTime,jdbcType=TIMESTAMP},
+      committerId = #{committerId,jdbcType=VARCHAR},
+      libId = #{libId,jdbcType=INTEGER}
+    where commitId = #{commitId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="entity.CommitExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="entity.CommitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectCommitsByExample" parameterType="entity.CommitExample" resultType="entity.CommitUsernameVo">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    ,user.username
+    from commit,user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+      and commit.committerId=user.userId
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <cache />
+</mapper>

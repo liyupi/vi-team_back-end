@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TeamMapper">
+    <resultMap id="BaseResultMap" type="entity.Team">
+        <id column="teamId" jdbcType="INTEGER" property="teamId"/>
+        <result column="teamName" jdbcType="VARCHAR" property="teamName"/>
+        <result column="profile" jdbcType="VARCHAR" property="profile"/>
+        <result column="creatorId" jdbcType="VARCHAR" property="creatorId"/>
+        <result column="createDate" jdbcType="DATE" property="createDate"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="headPic" jdbcType="VARCHAR" property="headPic"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    teamId, teamName, profile, creatorId, createDate, type, headPic
+  </sql>
+    <select id="selectByExample" parameterType="entity.TeamExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from team
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from team
+        where teamId = #{teamId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from team
+    where teamId = #{teamId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="entity.TeamExample">
+        delete from team
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="entity.Team">
+    insert into team (teamId, teamName, profile, 
+      creatorId, createDate, type, 
+      headPic)
+    values (#{teamId,jdbcType=INTEGER}, #{teamName,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, 
+      #{creatorId,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{type,jdbcType=VARCHAR}, 
+      #{headPic,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="entity.Team">
+        insert into team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                teamId,
+            </if>
+            <if test="teamName != null">
+                teamName,
+            </if>
+            <if test="profile != null">
+                profile,
+            </if>
+            <if test="creatorId != null">
+                creatorId,
+            </if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="headPic != null">
+                headPic,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">
+                #{teamId,jdbcType=INTEGER},
+            </if>
+            <if test="teamName != null">
+                #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="profile != null">
+                #{profile,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="headPic != null">
+                #{headPic,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="entity.TeamExample" resultType="java.lang.Long">
+        select count(*) from team
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update team
+        <set>
+            <if test="record.teamId != null">
+                teamId = #{record.teamId,jdbcType=INTEGER},
+            </if>
+            <if test="record.teamName != null">
+                teamName = #{record.teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.profile != null">
+                profile = #{record.profile,jdbcType=VARCHAR},
+            </if>
+            <if test="record.creatorId != null">
+                creatorId = #{record.creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                createDate = #{record.createDate,jdbcType=DATE},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=VARCHAR},
+            </if>
+            <if test="record.headPic != null">
+                headPic = #{record.headPic,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update team
+        set teamId = #{record.teamId,jdbcType=INTEGER},
+        teamName = #{record.teamName,jdbcType=VARCHAR},
+        profile = #{record.profile,jdbcType=VARCHAR},
+        creatorId = #{record.creatorId,jdbcType=VARCHAR},
+        createDate = #{record.createDate,jdbcType=DATE},
+        type = #{record.type,jdbcType=VARCHAR},
+        headPic = #{record.headPic,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="entity.Team">
+        update team
+        <set>
+            <if test="teamName != null">
+                teamName = #{teamName,jdbcType=VARCHAR},
+            </if>
+            <if test="profile != null">
+                profile = #{profile,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                creatorId = #{creatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="headPic != null">
+                headPic = #{headPic,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where teamId = #{teamId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="entity.Team">
+    update team
+    set teamName = #{teamName,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      creatorId = #{creatorId,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=DATE},
+      type = #{type,jdbcType=VARCHAR},
+      headPic = #{headPic,jdbcType=VARCHAR}
+    where teamId = #{teamId,jdbcType=INTEGER}
+  </update>
+    <select id="selectByExampleWithRowbounds" parameterType="entity.TeamExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from team
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="getAllCreateTeam" parameterType="String" resultType="entity.Team">
+      select teamName,teamId from team where creatorId=#{userId};
+    </select>
+    <cache/>
+</mapper>

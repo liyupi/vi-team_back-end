@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.WorkMapper">
+  <resultMap id="BaseResultMap" type="entity.Work">
+    <id column="workId" jdbcType="INTEGER" property="workId" />
+    <result column="workName" jdbcType="VARCHAR" property="workName" />
+    <result column="workerId" jdbcType="VARCHAR" property="workerId" />
+    <result column="workDetail" jdbcType="VARCHAR" property="workDetail" />
+    <result column="startDate" jdbcType="DATE" property="startDate" />
+    <result column="endDate" jdbcType="DATE" property="endDate" />
+    <result column="finishDate" jdbcType="DATE" property="finishDate" />
+    <result column="teamId" jdbcType="INTEGER" property="teamId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="planStartDate" jdbcType="DATE" property="planStartDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    workId, workName, workerId, workDetail, startDate, endDate, finishDate, teamId, status, 
+    planStartDate
+  </sql>
+  <select id="selectByExample" parameterType="entity.WorkExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work
+    where workId = #{workId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work
+    where workId = #{workId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.WorkExample">
+    delete from work
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.Work">
+    insert into work (workId, workName, workerId, 
+      workDetail, startDate, endDate, 
+      finishDate, teamId, status, 
+      planStartDate)
+    values (#{workId,jdbcType=INTEGER}, #{workName,jdbcType=VARCHAR}, #{workerId,jdbcType=VARCHAR}, 
+      #{workDetail,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{finishDate,jdbcType=DATE}, #{teamId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{planStartDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="entity.Work">
+    insert into work
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        workId,
+      </if>
+      <if test="workName != null">
+        workName,
+      </if>
+      <if test="workerId != null">
+        workerId,
+      </if>
+      <if test="workDetail != null">
+        workDetail,
+      </if>
+      <if test="startDate != null">
+        startDate,
+      </if>
+      <if test="endDate != null">
+        endDate,
+      </if>
+      <if test="finishDate != null">
+        finishDate,
+      </if>
+      <if test="teamId != null">
+        teamId,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="planStartDate != null">
+        planStartDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="workName != null">
+        #{workName,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null">
+        #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="workDetail != null">
+        #{workDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="planStartDate != null">
+        #{planStartDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.WorkExample" resultType="java.lang.Long">
+    select count(*) from work
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update work
+    <set>
+      <if test="record.workId != null">
+        workId = #{record.workId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workName != null">
+        workName = #{record.workName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerId != null">
+        workerId = #{record.workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workDetail != null">
+        workDetail = #{record.workDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        startDate = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        endDate = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.finishDate != null">
+        finishDate = #{record.finishDate,jdbcType=DATE},
+      </if>
+      <if test="record.teamId != null">
+        teamId = #{record.teamId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.planStartDate != null">
+        planStartDate = #{record.planStartDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update work
+    set workId = #{record.workId,jdbcType=INTEGER},
+      workName = #{record.workName,jdbcType=VARCHAR},
+      workerId = #{record.workerId,jdbcType=VARCHAR},
+      workDetail = #{record.workDetail,jdbcType=VARCHAR},
+      startDate = #{record.startDate,jdbcType=DATE},
+      endDate = #{record.endDate,jdbcType=DATE},
+      finishDate = #{record.finishDate,jdbcType=DATE},
+      teamId = #{record.teamId,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      planStartDate = #{record.planStartDate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.Work">
+    update work
+    <set>
+      <if test="workName != null">
+        workName = #{workName,jdbcType=VARCHAR},
+      </if>
+      <if test="workerId != null">
+        workerId = #{workerId,jdbcType=VARCHAR},
+      </if>
+      <if test="workDetail != null">
+        workDetail = #{workDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        startDate = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        endDate = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="finishDate != null">
+        finishDate = #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="teamId != null">
+        teamId = #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="planStartDate != null">
+        planStartDate = #{planStartDate,jdbcType=DATE},
+      </if>
+    </set>
+    where workId = #{workId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.Work">
+    update work
+    set workName = #{workName,jdbcType=VARCHAR},
+      workerId = #{workerId,jdbcType=VARCHAR},
+      workDetail = #{workDetail,jdbcType=VARCHAR},
+      startDate = #{startDate,jdbcType=DATE},
+      endDate = #{endDate,jdbcType=DATE},
+      finishDate = #{finishDate,jdbcType=DATE},
+      teamId = #{teamId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      planStartDate = #{planStartDate,jdbcType=DATE}
+    where workId = #{workId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="entity.WorkExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from work
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectWorkUserByTeamId" resultType="entity.WorkUserVo">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,user.userId,user.username from work,user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+      and work.workerId=user.userId
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <cache />
+</mapper>
